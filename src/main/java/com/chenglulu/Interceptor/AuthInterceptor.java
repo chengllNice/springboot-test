@@ -34,9 +34,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 验证权限
-        if(!this.hasPermission(request, handler)){
-            throw new AuthorizedException(ErrorCode.AUTHORIZATION_INVALID);
-        }
+//        if(!this.hasPermission(request, handler)){
+//            throw new AuthorizedException(ErrorCode.AUTHORIZATION_INVALID);
+//        }
         return true;
     }
 

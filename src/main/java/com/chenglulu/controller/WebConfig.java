@@ -23,7 +23,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         InterceptorRegistration auth = registry.addInterceptor(authInterceptor);
 
         base.addPathPatterns("/**");
-        auth.addPathPatterns("/**");
+//        auth.addPathPatterns("/**");
 //        super.addInterceptors(registry);
     }
 }
