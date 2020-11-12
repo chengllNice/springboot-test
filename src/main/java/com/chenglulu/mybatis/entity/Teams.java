@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Teams implements Serializable {
-    private Integer id;
+    private String id;
 
     private String teamName;
 
@@ -18,7 +18,7 @@ public class Teams implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Teams(Integer id, String teamName, String address, Date createTime, Date updateTime, String description) {
+    public Teams(String id, String teamName, String address, Date createTime, Date updateTime, String description) {
         this.id = id;
         this.teamName = teamName;
         this.address = address;
@@ -31,12 +31,12 @@ public class Teams implements Serializable {
         super();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     public String getTeamName() {

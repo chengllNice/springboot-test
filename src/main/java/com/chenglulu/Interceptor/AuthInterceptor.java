@@ -59,8 +59,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
                 // redis或数据库 中获取该用户的权限信息 并判断是否有权限
                 String token = request.getHeader(Constants.Authorization);
+
+                Boolean isExpiration = JwtTokenUtils.isExpiration(token);
+
                 int prefixLen = JwtTokenUtils.TOKEN_PREFIX.length();
                 token = token.substring(prefixLen);
+
+                if(isExpiration){
+                    throw new AuthorizedException(ErrorCode.AUTHORIZATION_EXPIRED);
+                }
+
                 LoginRecord loginRecord = databaseLoginRecord.findLoginRecordByToken(token);
 
                 if(loginRecord == null){

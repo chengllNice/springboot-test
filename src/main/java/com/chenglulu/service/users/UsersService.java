@@ -5,7 +5,6 @@ import com.chenglulu.constant.Validation;
 import com.chenglulu.controller.roles.domain.CreateRolesParams;
 import com.chenglulu.controller.users.domain.*;
 import com.chenglulu.exception.RequestException;
-import com.chenglulu.mybatis.dao.UsersMapper;
 import com.chenglulu.mybatis.entity.LoginRecord;
 import com.chenglulu.mybatis.entity.Roles;
 import com.chenglulu.mybatis.entity.Users;
@@ -26,9 +25,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class UsersService {
-
-    @Autowired(required=false)
-    private UsersMapper usersMapper;
 
     @Autowired
     private DatabaseUsers databaseUsers;
@@ -106,6 +102,7 @@ public class UsersService {
         users.setRealName(params.getRealName());
         users.setEmail(params.getEmail());
         users.setPhone(params.getPhone());
+        users.setTeamId(params.getTeamId());
         users.setRoleId(roles.getId());
         return databaseUsers.insertUser(users);
     }
@@ -167,7 +164,7 @@ public class UsersService {
         String userLoginMaxLimit = usersConfig.getUserLoginMaxLimit();
 
         if(loginRecords.size() >= Integer.parseInt(userLoginMaxLimit)){
-            throw new RequestException(ErrorCode.LOGIN_Limit_ERROR);
+            throw new RequestException(ErrorCode.LOGIN_LIMIT_ERROR);
         }
 
         LoginRecord loginRecord = new LoginRecord();
@@ -206,7 +203,7 @@ public class UsersService {
      */
     public Users queryUserById(ApiAuth auth, QueryUserByIdParams params){
         FindUsersParams findUsersParams = new FindUsersParams();
-        findUsersParams.setId(params.getId());
+        findUsersParams.setId(params.getUserId());
         List<Users> usersList = databaseUsers.findUsers(findUsersParams);
 
         Users response = null;

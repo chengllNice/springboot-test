@@ -38,6 +38,7 @@ public class DatabaseUsers {
         users.setEmail(params.getEmail());
         users.setPhone(params.getPhone());
         users.setRoleId(params.getRoleId());
+        users.setTeamId(params.getTeamId());
         users.setCreateTime(date);
         users.setUpdateTime(date);
         users.setStatus(UserStatusEnum.OK.getCode());

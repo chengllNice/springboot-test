@@ -97,18 +97,18 @@
 <!--               enableDeleteByPrimaryKey="true">-->
 <!--        </table>-->
 
-        <table tableName="operation_record"
-               schema="root"
-               domainObjectName="OperationRecord"
-               enableCountByExample="true"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true"
-               enableSelectByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true">
-        </table>
+<!--        <table tableName="operation_record"-->
+<!--               schema="root"-->
+<!--               domainObjectName="OperationRecord"-->
+<!--               enableCountByExample="true"-->
+<!--               enableUpdateByExample="true"-->
+<!--               enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="true"-->
+<!--               enableSelectByPrimaryKey="true"-->
+<!--               enableUpdateByPrimaryKey="true"-->
+<!--               enableDeleteByPrimaryKey="true">-->
+<!--        </table>-->
 
 <!--        <table tableName="permission_template"-->
 <!--               schema="root"-->
@@ -149,18 +149,18 @@
 <!--               enableDeleteByPrimaryKey="true">-->
 <!--        </table>-->
 
-<!--        <table tableName="teams"-->
-<!--               schema="root"-->
-<!--               domainObjectName="Teams"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="teams"
+               schema="root"
+               domainObjectName="Teams"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
 
 <!--        <table tableName="users"-->
 <!--               schema="root"-->

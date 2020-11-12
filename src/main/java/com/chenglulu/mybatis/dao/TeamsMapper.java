@@ -10,7 +10,7 @@ public interface TeamsMapper {
 
     int deleteByExample(TeamsExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(Teams record);
 
@@ -20,7 +20,7 @@ public interface TeamsMapper {
 
     List<Teams> selectByExample(TeamsExample example);
 
-    Teams selectByPrimaryKey(Integer id);
+    Teams selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") Teams record, @Param("example") TeamsExample example);
 

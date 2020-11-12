@@ -13,5 +13,5 @@ public class QueryUserByIdParams {
 
     @NotBlank
     @Pattern(regexp = Validation.UUID)
-    private String id;
+    private String userId;
 }
