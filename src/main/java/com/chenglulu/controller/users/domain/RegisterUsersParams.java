@@ -46,4 +46,8 @@ public class RegisterUsersParams {
     @NotBlank
     @Pattern(regexp = Validation.EMAIL)
     private String email;
+
+    @NotBlank
+    @Pattern(regexp = Validation.UUID)
+    private String teamId;
 }

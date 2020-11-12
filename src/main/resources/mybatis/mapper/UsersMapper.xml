@@ -13,7 +13,8 @@
       <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="delete" javaType="java.lang.Byte" jdbcType="TINYINT" />
-      <arg column="role" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="role_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="team_id" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_name, `password`, real_name, phone, create_time, update_time, email, `status`, 
-    `delete`, `role`
+    `delete`, role_id, team_id
   </sql>
   <select id="selectByExample" parameterType="com.chenglulu.mybatis.entity.UsersExample" resultMap="BaseResultMap">
     select
@@ -113,11 +114,13 @@
     insert into users (id, user_name, `password`, 
       real_name, phone, create_time, 
       update_time, email, `status`, 
-      `delete`, `role`)
+      `delete`, role_id, team_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{realName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{email,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{delete,jdbcType=TINYINT}, #{role,jdbcType=VARCHAR})
+      #{delete,jdbcType=TINYINT}, #{roleId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.chenglulu.mybatis.entity.Users">
     insert into users
@@ -152,8 +155,11 @@
       <if test="delete != null">
         `delete`,
       </if>
-      <if test="role != null">
-        `role`,
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="teamId != null">
+        team_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -187,8 +193,11 @@
       <if test="delete != null">
         #{delete,jdbcType=TINYINT},
       </if>
-      <if test="role != null">
-        #{role,jdbcType=VARCHAR},
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,8 +240,11 @@
       <if test="record.delete != null">
         `delete` = #{record.delete,jdbcType=TINYINT},
       </if>
-      <if test="record.role != null">
-        `role` = #{record.role,jdbcType=VARCHAR},
+      <if test="record.roleId != null">
+        role_id = #{record.roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teamId != null">
+        team_id = #{record.teamId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -251,7 +263,8 @@
       email = #{record.email,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=VARCHAR},
       `delete` = #{record.delete,jdbcType=TINYINT},
-      `role` = #{record.role,jdbcType=VARCHAR}
+      role_id = #{record.roleId,jdbcType=VARCHAR},
+      team_id = #{record.teamId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,8 +299,11 @@
       <if test="delete != null">
         `delete` = #{delete,jdbcType=TINYINT},
       </if>
-      <if test="role != null">
-        `role` = #{role,jdbcType=VARCHAR},
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        team_id = #{teamId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -303,7 +319,8 @@
       email = #{email,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=VARCHAR},
       `delete` = #{delete,jdbcType=TINYINT},
-      `role` = #{role,jdbcType=VARCHAR}
+      role_id = #{roleId,jdbcType=VARCHAR},
+      team_id = #{teamId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

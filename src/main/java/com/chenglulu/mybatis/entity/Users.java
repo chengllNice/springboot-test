@@ -24,11 +24,13 @@ public class Users implements Serializable {
 
     private Byte delete;
 
-    private String role;
+    private String roleId;
+
+    private String teamId;
 
     private static final long serialVersionUID = 1L;
 
-    public Users(String id, String userName, String password, String realName, String phone, Date createTime, Date updateTime, String email, String status, Byte delete, String role) {
+    public Users(String id, String userName, String password, String realName, String phone, Date createTime, Date updateTime, String email, String status, Byte delete, String roleId, String teamId) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -39,7 +41,8 @@ public class Users implements Serializable {
         this.email = email;
         this.status = status;
         this.delete = delete;
-        this.role = role;
+        this.roleId = roleId;
+        this.teamId = teamId;
     }
 
     public Users() {
@@ -126,12 +129,20 @@ public class Users implements Serializable {
         this.delete = delete;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId == null ? null : teamId.trim();
     }
 
     @Override
@@ -150,7 +161,8 @@ public class Users implements Serializable {
         sb.append(", email=").append(email);
         sb.append(", status=").append(status);
         sb.append(", delete=").append(delete);
-        sb.append(", role=").append(role);
+        sb.append(", roleId=").append(roleId);
+        sb.append(", teamId=").append(teamId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

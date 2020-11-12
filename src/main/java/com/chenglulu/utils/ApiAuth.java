@@ -7,6 +7,7 @@ public class ApiAuth {
     private String requestId;
     private String requestTime;
     private String userId;
+    private String teamId; // 团队、公司ID
     private String token;
     private String realIp;
     private String equipment;
@@ -48,6 +49,14 @@ public class ApiAuth {
 
     public void setUserId(String userId){
         this.userId = userId;
+    }
+
+    public String getTeamId(){
+        return teamId;
+    }
+
+    public void setTeamId(String teamId){
+        this.teamId = teamId;
     }
 
     public String getRealIp(){

@@ -1,9 +1,7 @@
 package com.chenglulu.service.users.database;
 
 import com.chenglulu.controller.users.domain.FindUsersParams;
-import com.chenglulu.controller.users.domain.RegisterUsersParams;
 import com.chenglulu.enums.UserDeleteEnum;
-import com.chenglulu.enums.UserRoleEnum;
 import com.chenglulu.enums.UserStatusEnum;
 import com.chenglulu.mybatis.dao.UsersMapper;
 import com.chenglulu.mybatis.entity.Users;
@@ -29,21 +27,21 @@ public class DatabaseUsers {
      * @param params RegisterUsersParams
      * @return boolean
      */
-    public Users insertUser(RegisterUsersParams params){
+    public Users insertUser(Users params){
         Users users = new Users();
         Date date = new Date();
 
         users.setId(CommonUtils.getUuid());
-        users.setUserName(params.getUsername());
+        users.setUserName(params.getUserName());
         users.setPassword(params.getPassword());
         users.setRealName(params.getRealName());
         users.setEmail(params.getEmail());
         users.setPhone(params.getPhone());
+        users.setRoleId(params.getRoleId());
         users.setCreateTime(date);
         users.setUpdateTime(date);
         users.setStatus(UserStatusEnum.OK.getCode());
         users.setDelete(UserDeleteEnum.NORMAL.getCode());
-        users.setRole(UserRoleEnum.SUPER_ADMIN.getCode().toString());
         int insertResult = usersMapper.insertSelective(users);
         log.info("insertUser insertResult = {}", insertResult);
         if(insertResult == 1){

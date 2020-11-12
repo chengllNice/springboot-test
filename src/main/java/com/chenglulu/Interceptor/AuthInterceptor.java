@@ -2,8 +2,6 @@ package com.chenglulu.Interceptor;
 
 import com.chenglulu.constant.Constants;
 import com.chenglulu.constant.ErrorCode;
-import com.chenglulu.controller.users.domain.FindUsersParams;
-import com.chenglulu.enums.UserDeleteEnum;
 import com.chenglulu.exception.AuthorizedException;
 import com.chenglulu.exception.RequestException;
 import com.chenglulu.mybatis.entity.LoginRecord;
@@ -11,7 +9,6 @@ import com.chenglulu.mybatis.entity.Users;
 import com.chenglulu.service.users.database.DatabaseLoginRecord;
 import com.chenglulu.service.users.database.DatabaseUsers;
 import com.chenglulu.utils.JwtTokenUtils;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +17,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
@@ -34,9 +30,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 验证权限
-//        if(!this.hasPermission(request, handler)){
-//            throw new AuthorizedException(ErrorCode.AUTHORIZATION_INVALID);
-//        }
+        if(!this.hasPermission(request, handler)){
+            throw new AuthorizedException(ErrorCode.AUTHORIZATION_INVALID);
+        }
         return true;
     }
 
@@ -63,6 +59,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
                 // redis或数据库 中获取该用户的权限信息 并判断是否有权限
                 String token = request.getHeader(Constants.Authorization);
+                int prefixLen = JwtTokenUtils.TOKEN_PREFIX.length();
+                token = token.substring(prefixLen);
                 LoginRecord loginRecord = databaseLoginRecord.findLoginRecordByToken(token);
 
                 if(loginRecord == null){

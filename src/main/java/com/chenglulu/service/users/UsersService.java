@@ -2,17 +2,18 @@ package com.chenglulu.service.users;
 
 import com.chenglulu.constant.ErrorCode;
 import com.chenglulu.constant.Validation;
-import com.chenglulu.controller.users.UsersController;
+import com.chenglulu.controller.roles.domain.CreateRolesParams;
 import com.chenglulu.controller.users.domain.*;
 import com.chenglulu.exception.RequestException;
 import com.chenglulu.mybatis.dao.UsersMapper;
 import com.chenglulu.mybatis.entity.LoginRecord;
+import com.chenglulu.mybatis.entity.Roles;
 import com.chenglulu.mybatis.entity.Users;
+import com.chenglulu.service.roles.RolesService;
 import com.chenglulu.service.users.database.DatabaseLoginRecord;
 import com.chenglulu.service.users.database.DatabaseUsers;
 import com.chenglulu.utils.ApiAuth;
 import com.chenglulu.utils.JwtTokenUtils;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -20,8 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import javax.validation.Validator;
 import java.util.List;
 
 @Service
@@ -38,9 +37,52 @@ public class UsersService {
     private DatabaseLoginRecord databaseLoginRecord;
 
     @Autowired
+    private RolesService rolesService;
+
+    @Autowired
     private UsersConfig usersConfig;
 
+    private static final String defaultRolesKey = "super_administrator";
+    private static final String defaultRolesName = "超级管理员";
+
     private static final Logger logger = LoggerFactory.getLogger(UsersService.class);
+
+    /**
+     * 验证用户邮箱&手机号
+     * @param email email
+     * @param phone phone
+     */
+    public void validUserEmailAndPhone(String email, String phone){
+
+        FindUsersParams findUsersEmailParams = new FindUsersParams();
+        findUsersEmailParams.setEmail(email);
+        List<Users> usersEmailList = databaseUsers.findUsers(findUsersEmailParams);
+
+        if(CollectionUtils.isNotEmpty(usersEmailList)){
+            throw new RequestException(ErrorCode.USER_EMAIL_EXIST);
+        }
+
+        FindUsersParams findUsersPhoneParams = new FindUsersParams();
+        findUsersPhoneParams.setPhone(email);
+        List<Users> usersPhoneList = databaseUsers.findUsers(findUsersPhoneParams);
+
+        if(CollectionUtils.isNotEmpty(usersPhoneList)){
+            throw new RequestException(ErrorCode.USER_PHONE_EXIST);
+        }
+    }
+
+    /**
+     * 验证用户角色
+     * @param teamId teamId
+     * @param roleKey roleKey
+     */
+    public void validUserRole(String teamId, String roleKey){
+        Roles roles = rolesService.queryUserRolesByKey(teamId, roleKey);
+
+        if(roles == null){
+            throw new RequestException(ErrorCode.USER_ROLE_NOT_EXIST);
+        }
+    }
 
     /**
      * 注册
@@ -49,7 +91,46 @@ public class UsersService {
      * @return Users
      */
     public Users registerUser(ApiAuth auth, RegisterUsersParams params){
-        return databaseUsers.insertUser(params);
+
+        validUserEmailAndPhone(params.getEmail(), params.getPhone());
+
+        CreateRolesParams createRolesParams = new CreateRolesParams();
+        createRolesParams.setKey(defaultRolesKey);
+        createRolesParams.setName(defaultRolesName);
+        auth.setTeamId(params.getTeamId());
+        Roles roles = rolesService.createRoles(auth, createRolesParams);
+
+        Users users = new Users();
+        users.setUserName(params.getUsername());
+        users.setPassword(params.getPassword());
+        users.setRealName(params.getRealName());
+        users.setEmail(params.getEmail());
+        users.setPhone(params.getPhone());
+        users.setRoleId(roles.getId());
+        return databaseUsers.insertUser(users);
+    }
+
+    /**
+     * 添加账号
+     * @param auth auth
+     * @param params 请求参数
+     * @return Users
+     */
+    public Users createUser(ApiAuth auth, CreateUserParams params){
+
+        validUserEmailAndPhone(params.getEmail(), params.getPhone());
+
+        validUserRole(auth.getTeamId(), params.getRole());
+
+        Users users = new Users();
+        users.setUserName(params.getUsername());
+        users.setPassword(params.getPassword());
+        users.setRealName(params.getRealName());
+        users.setEmail(params.getEmail());
+        users.setPhone(params.getPhone());
+        users.setTeamId(auth.getTeamId());
+        users.setRoleId(params.getRole());
+        return databaseUsers.insertUser(users);
     }
 
     /**

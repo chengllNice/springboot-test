@@ -8,6 +8,9 @@ public interface Validation {
     //邮箱
     String EMAIL = "^[A-Za-z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
 
+    //英文字母
+    String EN = "^[A-Za-z]+$";
+
     //手机
     String PHONE = "^1(3|4|5|6|7|8|9)\\d{9}$";
 

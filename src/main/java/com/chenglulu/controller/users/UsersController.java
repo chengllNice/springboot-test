@@ -28,7 +28,7 @@ public class UsersController extends BaseController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public BaseResponse registerUser(HttpServletRequest request, @Validated @RequestBody RegisterUsersParams params){
-        ApiAuth auth = generateAuth(request);
+        ApiAuth auth = initAuth(request);
         String requestId = auth.getRequestId();
         logger.info("requestId = {}, registerUser start params = {}", requestId, params);
         Users users = usersService.registerUser(auth, params);
@@ -36,9 +36,20 @@ public class UsersController extends BaseController {
         return ResponseUtil.success(request, requestId, users);
     }
 
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequiredPermission
+    public BaseResponse createUser(HttpServletRequest request, @Validated @RequestBody CreateUserParams params){
+        ApiAuth auth = generateAuth(request);
+        String requestId = auth.getRequestId();
+        logger.info("requestId = {}, createUser start auth = {} params = {}", requestId, auth, params);
+        Users users = usersService.createUser(auth, params);
+        logger.info("requestId = {}, createUser end users = {}", requestId, users);
+        return ResponseUtil.success(request, requestId, users);
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public BaseResponse login(HttpServletRequest request, @Validated @RequestBody LoginParams params){
-        ApiAuth auth = generateAuth(request);
+        ApiAuth auth = initAuth(request);
         String requestId = auth.getRequestId();
         logger.info("requestId = {}, login start params = {}", requestId, params);
         LoginResponse loginResponse = usersService.login(auth, params);
@@ -47,10 +58,11 @@ public class UsersController extends BaseController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequiredPermission
     public BaseResponse queryUserList(HttpServletRequest request, @Validated QueryUsersListParams params){
         ApiAuth auth = generateAuth(request);
         String requestId = auth.getRequestId();
-        logger.info("requestId = {}, queryUserList start params = {}", requestId, params);
+        logger.info("requestId = {}, queryUserList start auth = {} params = {}", requestId, auth, params);
         List<Users> usersList = usersService.queryUserList(auth, params);
         logger.info("requestId = {}, queryUserList end usersList = {}", requestId, usersList);
         return ResponseUtil.success(request, requestId, usersList);
@@ -61,7 +73,7 @@ public class UsersController extends BaseController {
     public BaseResponse queryUser(HttpServletRequest request, @Validated QueryUserByIdParams params){
         ApiAuth auth = generateAuth(request);
         String requestId = auth.getRequestId();
-        logger.info("requestId = {}, queryUser start params = {}", requestId, params);
+        logger.info("requestId = {}, queryUser start auth = {} params = {}", requestId, auth, params);
         Users user = usersService.queryUserById(auth, params);
         logger.info("requestId = {}, queryUser end user = {}", requestId, user);
         return ResponseUtil.success(request, requestId, user);
