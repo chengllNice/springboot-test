@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 12/11/2020 20:12:00
+ Date: 13/11/2020 20:34:21
 */
 
 SET NAMES utf8mb4;
@@ -39,11 +39,11 @@ DROP TABLE IF EXISTS `login_record`;
 CREATE TABLE `login_record` (
   `id` varchar(255) NOT NULL,
   `user_id` varchar(255) NOT NULL COMMENT '登录用户ID',
-  `create_time` datetime(6) NOT NULL COMMENT '登录时间',
+  `ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `place` varchar(255) NOT NULL COMMENT '登录地址',
   `equipment` varchar(255) NOT NULL COMMENT '登录设备',
-  `token` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录token',
-  `ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `equipment_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录设备代码',
+  `create_time` datetime(6) NOT NULL COMMENT '登录时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -104,12 +104,24 @@ CREATE TABLE `roles` (
 -- ----------------------------
 DROP TABLE IF EXISTS `teams`;
 CREATE TABLE `teams` (
-  `id` int(255) NOT NULL,
+  `id` varchar(255) NOT NULL,
   `team_name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `description` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `create_time` datetime(6) NOT NULL,
   `update_time` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for user_token
+-- ----------------------------
+DROP TABLE IF EXISTS `user_token`;
+CREATE TABLE `user_token` (
+  `id` varchar(255) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `create_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
