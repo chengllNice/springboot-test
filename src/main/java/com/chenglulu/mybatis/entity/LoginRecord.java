@@ -8,26 +8,26 @@ public class LoginRecord implements Serializable {
 
     private String userId;
 
-    private Date createTime;
+    private String ip;
 
     private String place;
 
     private String equipment;
 
-    private String token;
+    private String equipmentCode;
 
-    private String ip;
+    private Date createTime;
 
     private static final long serialVersionUID = 1L;
 
-    public LoginRecord(String id, String userId, Date createTime, String place, String equipment, String token, String ip) {
+    public LoginRecord(String id, String userId, String ip, String place, String equipment, String equipmentCode, Date createTime) {
         this.id = id;
         this.userId = userId;
-        this.createTime = createTime;
+        this.ip = ip;
         this.place = place;
         this.equipment = equipment;
-        this.token = token;
-        this.ip = ip;
+        this.equipmentCode = equipmentCode;
+        this.createTime = createTime;
     }
 
     public LoginRecord() {
@@ -50,12 +50,12 @@ public class LoginRecord implements Serializable {
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getIp() {
+        return ip;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setIp(String ip) {
+        this.ip = ip == null ? null : ip.trim();
     }
 
     public String getPlace() {
@@ -74,20 +74,20 @@ public class LoginRecord implements Serializable {
         this.equipment = equipment == null ? null : equipment.trim();
     }
 
-    public String getToken() {
-        return token;
+    public String getEquipmentCode() {
+        return equipmentCode;
     }
 
-    public void setToken(String token) {
-        this.token = token == null ? null : token.trim();
+    public void setEquipmentCode(String equipmentCode) {
+        this.equipmentCode = equipmentCode == null ? null : equipmentCode.trim();
     }
 
-    public String getIp() {
-        return ip;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
@@ -98,11 +98,11 @@ public class LoginRecord implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
-        sb.append(", createTime=").append(createTime);
+        sb.append(", ip=").append(ip);
         sb.append(", place=").append(place);
         sb.append(", equipment=").append(equipment);
-        sb.append(", token=").append(token);
-        sb.append(", ip=").append(ip);
+        sb.append(", equipmentCode=").append(equipmentCode);
+        sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

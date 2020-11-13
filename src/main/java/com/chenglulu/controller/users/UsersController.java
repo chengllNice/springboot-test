@@ -5,7 +5,7 @@ import com.chenglulu.controller.BaseController;
 import com.chenglulu.controller.BaseResponse;
 import com.chenglulu.controller.users.domain.*;
 import com.chenglulu.mybatis.entity.Users;
-import com.chenglulu.service.users.UsersService;
+import com.chenglulu.service.UsersService;
 import com.chenglulu.utils.ApiAuth;
 import com.chenglulu.utils.ResponseUtil;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package com.chenglulu.service.operation_record.database;
+package com.chenglulu.service.database;
 
 import com.chenglulu.mybatis.dao.OperationRecordMapper;
 import com.chenglulu.mybatis.entity.OperationRecord;
@@ -11,24 +11,18 @@ import java.util.Date;
 
 @Service
 @Slf4j
-public class DatabaseOperationRecord {
+public class OperationRecordDatabase {
     @Autowired(required=false)
     private OperationRecordMapper operationRecordMapper;
 
     /**
      * 新建操作记录
-     * @param params RegisterUsersParams
+     * @param operationRecord OperationRecord
      * @return boolean
      */
-    public OperationRecord insertOperationRecord(OperationRecord params){
-        OperationRecord operationRecord = new OperationRecord();
+    public OperationRecord insertOperationRecord(OperationRecord operationRecord){
         Date date = new Date();
-
         operationRecord.setId(CommonUtils.getUuid());
-        operationRecord.setInterfaceId(params.getInterfaceId());
-        operationRecord.setUserId(params.getUserId());
-        operationRecord.setStatus(params.getStatus());
-        operationRecord.setReason(params.getReason());
         operationRecord.setCreateTime(date);
         int insertResult = operationRecordMapper.insertSelective(operationRecord);
         log.info("insertOperationRecord insertResult = {}", insertResult);

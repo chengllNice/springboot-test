@@ -3,11 +3,9 @@ package com.chenglulu.controller.teams;
 import com.chenglulu.controller.BaseController;
 import com.chenglulu.controller.BaseResponse;
 import com.chenglulu.controller.teams.domain.CreateTeamsParams;
-import com.chenglulu.controller.users.UsersController;
-import com.chenglulu.controller.users.domain.RegisterUsersParams;
+import com.chenglulu.controller.teams.domain.FindTeamsListParams;
 import com.chenglulu.mybatis.entity.Teams;
-import com.chenglulu.mybatis.entity.Users;
-import com.chenglulu.service.teams.TeamsService;
+import com.chenglulu.service.TeamsService;
 import com.chenglulu.utils.ApiAuth;
 import com.chenglulu.utils.ResponseUtil;
 import org.slf4j.Logger;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping( value = "/teams", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -38,6 +37,16 @@ public class TeamsController extends BaseController {
         logger.info("requestId = {}, createTeams start params = {}", requestId, params);
         Teams result = teamsService.createTeams(auth, params);
         logger.info("requestId = {}, createTeams end users = {}", requestId, result);
+        return ResponseUtil.success(request, requestId, result);
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public BaseResponse queryTeamsList(HttpServletRequest request, @Validated FindTeamsListParams params){
+        ApiAuth auth = initAuth(request);
+        String requestId = auth.getRequestId();
+        logger.info("requestId = {}, queryTeamsList start params = {}", requestId, params);
+        List<Teams> result = teamsService.queryTeamsList(auth, params);
+        logger.info("requestId = {}, queryTeamsList end users = {}", requestId, result);
         return ResponseUtil.success(request, requestId, result);
     }
 }

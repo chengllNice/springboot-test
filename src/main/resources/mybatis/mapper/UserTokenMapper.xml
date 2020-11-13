@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chenglulu.mybatis.dao.LoginRecordMapper">
-  <resultMap id="BaseResultMap" type="com.chenglulu.mybatis.entity.LoginRecord">
+<mapper namespace="com.chenglulu.mybatis.dao.UserTokenMapper">
+  <resultMap id="BaseResultMap" type="com.chenglulu.mybatis.entity.UserToken">
     <constructor>
       <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="ip" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="place" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="equipment" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="equipment_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="token" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
@@ -71,16 +68,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, ip, place, equipment, equipment_code, create_time
+    id, user_id, token, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.chenglulu.mybatis.entity.LoginRecordExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.chenglulu.mybatis.entity.UserTokenExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from login_record
+    from user_token
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,29 +88,27 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from login_record
+    from user_token
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from login_record
+    delete from user_token
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.chenglulu.mybatis.entity.LoginRecordExample">
-    delete from login_record
+  <delete id="deleteByExample" parameterType="com.chenglulu.mybatis.entity.UserTokenExample">
+    delete from user_token
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.chenglulu.mybatis.entity.LoginRecord">
-    insert into login_record (id, user_id, ip, 
-      place, equipment, equipment_code, 
+  <insert id="insert" parameterType="com.chenglulu.mybatis.entity.UserToken">
+    insert into user_token (id, user_id, token, 
       create_time)
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
-      #{place,jdbcType=VARCHAR}, #{equipment,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.chenglulu.mybatis.entity.LoginRecord">
-    insert into login_record
+  <insert id="insertSelective" parameterType="com.chenglulu.mybatis.entity.UserToken">
+    insert into user_token
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -121,17 +116,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="ip != null">
-        ip,
-      </if>
-      <if test="place != null">
-        place,
-      </if>
-      <if test="equipment != null">
-        equipment,
-      </if>
-      <if test="equipmentCode != null">
-        equipment_code,
+      <if test="token != null">
+        token,
       </if>
       <if test="createTime != null">
         create_time,
@@ -144,31 +130,22 @@
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null">
-        #{ip,jdbcType=VARCHAR},
-      </if>
-      <if test="place != null">
-        #{place,jdbcType=VARCHAR},
-      </if>
-      <if test="equipment != null">
-        #{equipment,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentCode != null">
-        #{equipmentCode,jdbcType=VARCHAR},
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.chenglulu.mybatis.entity.LoginRecordExample" resultType="java.lang.Long">
-    select count(*) from login_record
+  <select id="countByExample" parameterType="com.chenglulu.mybatis.entity.UserTokenExample" resultType="java.lang.Long">
+    select count(*) from user_token
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update login_record
+    update user_token
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
@@ -176,17 +153,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=VARCHAR},
       </if>
-      <if test="record.ip != null">
-        ip = #{record.ip,jdbcType=VARCHAR},
-      </if>
-      <if test="record.place != null">
-        place = #{record.place,jdbcType=VARCHAR},
-      </if>
-      <if test="record.equipment != null">
-        equipment = #{record.equipment,jdbcType=VARCHAR},
-      </if>
-      <if test="record.equipmentCode != null">
-        equipment_code = #{record.equipmentCode,jdbcType=VARCHAR},
+      <if test="record.token != null">
+        token = #{record.token,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -197,35 +165,23 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update login_record
+    update user_token
     set id = #{record.id,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=VARCHAR},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      place = #{record.place,jdbcType=VARCHAR},
-      equipment = #{record.equipment,jdbcType=VARCHAR},
-      equipment_code = #{record.equipmentCode,jdbcType=VARCHAR},
+      token = #{record.token,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chenglulu.mybatis.entity.LoginRecord">
-    update login_record
+  <update id="updateByPrimaryKeySelective" parameterType="com.chenglulu.mybatis.entity.UserToken">
+    update user_token
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null">
-        ip = #{ip,jdbcType=VARCHAR},
-      </if>
-      <if test="place != null">
-        place = #{place,jdbcType=VARCHAR},
-      </if>
-      <if test="equipment != null">
-        equipment = #{equipment,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentCode != null">
-        equipment_code = #{equipmentCode,jdbcType=VARCHAR},
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -233,13 +189,10 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.chenglulu.mybatis.entity.LoginRecord">
-    update login_record
+  <update id="updateByPrimaryKey" parameterType="com.chenglulu.mybatis.entity.UserToken">
+    update user_token
     set user_id = #{userId,jdbcType=VARCHAR},
-      ip = #{ip,jdbcType=VARCHAR},
-      place = #{place,jdbcType=VARCHAR},
-      equipment = #{equipment,jdbcType=VARCHAR},
-      equipment_code = #{equipmentCode,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>

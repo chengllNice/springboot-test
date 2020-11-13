@@ -2,12 +2,12 @@ package com.chenglulu.Interceptor;
 
 import com.chenglulu.constant.Constants;
 import com.chenglulu.constant.ErrorCode;
+import com.chenglulu.controller.users.domain.QueryUserByIdParams;
 import com.chenglulu.exception.AuthorizedException;
-import com.chenglulu.exception.RequestException;
-import com.chenglulu.mybatis.entity.LoginRecord;
+import com.chenglulu.exception.ForbiddenException;
 import com.chenglulu.mybatis.entity.Users;
-import com.chenglulu.service.users.database.DatabaseLoginRecord;
-import com.chenglulu.service.users.database.DatabaseUsers;
+import com.chenglulu.service.UsersService;
+import com.chenglulu.service.database.UsersDatabase;
 import com.chenglulu.utils.JwtTokenUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +22,13 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    private DatabaseLoginRecord databaseLoginRecord;
-
-    @Autowired
-    private DatabaseUsers databaseUsers;
+    private UsersService usersService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 验证权限
         if(!this.hasPermission(request, handler)){
-            throw new AuthorizedException(ErrorCode.AUTHORIZATION_INVALID);
+            throw new ForbiddenException(ErrorCode.AUTHORIZATION_INVALID);
         }
         return true;
     }
@@ -54,36 +51,18 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             if(requiredPermission != null){
                 // authorization不存在或者不是以Bearer开头
                 if(StringUtils.isBlank(authorization) || !authorization.startsWith(Constants.AuthorizationPrefix)){
-                    throw new RequestException(ErrorCode.AUTHORIZATION_INCORRECT);
+                    throw new AuthorizedException(ErrorCode.USER_NOT_LOGIN);
                 }
 
                 // redis或数据库 中获取该用户的权限信息 并判断是否有权限
                 String token = request.getHeader(Constants.Authorization);
+                token = token.replace(Constants.TOKEN_PREFIX, "");
 
-                Boolean isExpiration = JwtTokenUtils.isExpiration(token);
+                String userId = JwtTokenUtils.getUserId(token);
 
-                int prefixLen = JwtTokenUtils.TOKEN_PREFIX.length();
-                token = token.substring(prefixLen);
-
-                if(isExpiration){
-                    throw new AuthorizedException(ErrorCode.AUTHORIZATION_EXPIRED);
-                }
-
-                LoginRecord loginRecord = databaseLoginRecord.findLoginRecordByToken(token);
-
-                if(loginRecord == null){
-                    return false;
-                }
-
-                String userId = loginRecord.getUserId();
-
-                String jwtUserId = JwtTokenUtils.getUserId(token);
-
-                if(!jwtUserId.equals(userId)){
-                    return false;
-                }
-
-                Users userInfo = databaseUsers.findUserStatusOkById(userId);
+                QueryUserByIdParams queryUserByIdParams = new QueryUserByIdParams();
+                queryUserByIdParams.setUserId(userId);
+                Users userInfo = usersService.queryUserById(queryUserByIdParams);
 
                 if(userInfo == null){
                     return false;

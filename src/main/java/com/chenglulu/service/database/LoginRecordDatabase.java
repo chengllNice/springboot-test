@@ -1,4 +1,4 @@
-package com.chenglulu.service.users.database;
+package com.chenglulu.service.database;
 
 import com.chenglulu.mybatis.dao.LoginRecordMapper;
 import com.chenglulu.mybatis.entity.LoginRecord;
@@ -13,24 +13,17 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class DatabaseLoginRecord {
+public class LoginRecordDatabase {
     @Autowired(required=false)
     private LoginRecordMapper loginRecordMapper;
 
     /**
      * 新建用户登录记录
-     * @param params LoginRecord
+     * @param loginRecord LoginRecord
      */
-    public void insertLoginRecord(LoginRecord params){
-        LoginRecord loginRecord = new LoginRecord();
+    public void insertLoginRecord(LoginRecord loginRecord){
         Date date = new Date();
-
         loginRecord.setId(CommonUtils.getUuid());
-        loginRecord.setUserId(params.getUserId());
-        loginRecord.setToken(params.getToken());
-        loginRecord.setIp(params.getIp());
-        loginRecord.setPlace(params.getPlace());
-        loginRecord.setEquipment(params.getEquipment());
         loginRecord.setCreateTime(date);
         int insertResult = loginRecordMapper.insertSelective(loginRecord);
         log.info("insertLoginRecord insertResult = {}", insertResult);
@@ -58,38 +51,17 @@ public class DatabaseLoginRecord {
 
 
     /**
-     * 查询用户登录记录信息
-     * @param token 用户token
-     * @return List<LoginRecord>
-     */
-    public LoginRecord findLoginRecordByToken(String token){
-        LoginRecordExample example = new LoginRecordExample();
-        LoginRecordExample.Criteria criteria = example.createCriteria();
-
-        criteria.andTokenEqualTo(token);
-
-        List<LoginRecord> loginRecords = loginRecordMapper.selectByExample(example);
-        log.info("findLoginRecordByToken loginRecords = {}", loginRecords);
-        if(loginRecords.size() > 0){
-            return loginRecords.get(0);
-        }
-        return null;
-    }
-
-
-    /**
      * 删除用户登录记录信息
      * @param userId 用户ID
-     * @param token 用户token
      */
-    public void deleteLoginRecordByToken(String userId, String token){
-        log.info("deleteLoginRecordByToken params userId = {}, token = {}", userId, token);
+    public void deleteLoginRecordByUserId(String userId){
+        log.info("deleteLoginRecordByUserId params userId = {}", userId);
         LoginRecordExample example = new LoginRecordExample();
         LoginRecordExample.Criteria criteria = example.createCriteria();
 
         criteria.andUserIdEqualTo(userId);
 
         int result = loginRecordMapper.deleteByExample(example);
-        log.info("deleteLoginRecordByToken result = {}", result);
+        log.info("deleteLoginRecordByUserId result = {}", result);
     }
 }

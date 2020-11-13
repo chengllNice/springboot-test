@@ -1,13 +1,10 @@
-package com.chenglulu.service.teams;
+package com.chenglulu.service.impl;
 
-import com.chenglulu.controller.roles.domain.CreateRolesParams;
 import com.chenglulu.controller.teams.domain.CreateTeamsParams;
-import com.chenglulu.controller.users.domain.RegisterUsersParams;
-import com.chenglulu.mybatis.entity.Roles;
+import com.chenglulu.controller.teams.domain.FindTeamsListParams;
 import com.chenglulu.mybatis.entity.Teams;
-import com.chenglulu.mybatis.entity.Users;
-import com.chenglulu.service.teams.database.DatabaseTeams;
-import com.chenglulu.service.users.UsersService;
+import com.chenglulu.service.database.TeamsDatabase;
+import com.chenglulu.service.TeamsService;
 import com.chenglulu.utils.ApiAuth;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -15,14 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
-public class TeamsService {
+public class TeamsServiceImpl implements TeamsService {
 
     @Autowired
-    private DatabaseTeams databaseTeams;
+    private TeamsDatabase teamsDatabase;
 
-    private static final Logger logger = LoggerFactory.getLogger(UsersService.class);
+    private static final Logger logger = LoggerFactory.getLogger(TeamsServiceImpl.class);
 
     /**
      * 新建团队
@@ -30,12 +29,24 @@ public class TeamsService {
      * @param params 请求参数
      * @return Users
      */
+    @Override
     public Teams createTeams(ApiAuth auth, CreateTeamsParams params){
 
         Teams teams = new Teams();
         teams.setTeamName(params.getName());
         teams.setDescription(params.getDescription());
         teams.setAddress(params.getAddress());
-        return databaseTeams.insertTeams(teams);
+        return teamsDatabase.insertTeams(teams);
+    }
+
+    /**
+     * 查询Teams列表
+     * @param auth auth
+     * @param params 请求参数
+     * @return Users
+     */
+    @Override
+    public List<Teams> queryTeamsList(ApiAuth auth, FindTeamsListParams params){
+        return teamsDatabase.findTeams(params);
     }
 }

@@ -7,7 +7,9 @@ import java.util.List;
 @Data
 public class FindUsersParams {
 
-    private String id;
+    private String teamId;
+
+    private String userId;
 
     private String username;
 
@@ -15,7 +17,7 @@ public class FindUsersParams {
 
     private String email;
 
-    private Byte delete = 0;
+    private Byte delete;
 
     private List<String> statusList;
 

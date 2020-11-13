@@ -1,4 +1,4 @@
-package com.chenglulu.service.users.database;
+package com.chenglulu.service.database;
 
 import com.chenglulu.controller.users.domain.FindUsersParams;
 import com.chenglulu.enums.UserDeleteEnum;
@@ -18,27 +18,18 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class DatabaseUsers {
+public class UsersDatabase {
     @Autowired(required=false)
     private UsersMapper usersMapper;
 
     /**
      * 新建用户
-     * @param params RegisterUsersParams
+     * @param users Users
      * @return boolean
      */
-    public Users insertUser(Users params){
-        Users users = new Users();
+    public Users insertUser(Users users){
         Date date = new Date();
-
         users.setId(CommonUtils.getUuid());
-        users.setUserName(params.getUserName());
-        users.setPassword(params.getPassword());
-        users.setRealName(params.getRealName());
-        users.setEmail(params.getEmail());
-        users.setPhone(params.getPhone());
-        users.setRoleId(params.getRoleId());
-        users.setTeamId(params.getTeamId());
         users.setCreateTime(date);
         users.setUpdateTime(date);
         users.setStatus(UserStatusEnum.OK.getCode());
@@ -64,22 +55,22 @@ public class DatabaseUsers {
         // 按照创建时间 降序排列, id 升序排列； ASC升序，DESC降序，多个条件用逗号分隔
         example.setOrderByClause("create_time desc, id asc");
 
-        if(StringUtils.isNotEmpty(params.getId())){
-            criteria.andIdEqualTo(params.getId());
+        if(StringUtils.isNotBlank(params.getUserId())){
+            criteria.andIdEqualTo(params.getUserId());
         }
 
         // 用户名模糊查询
-        if(StringUtils.isNotEmpty(params.getUsername())){
+        if(StringUtils.isNotBlank(params.getUsername())){
             criteria.andUserNameLike("%" + params.getUsername() + "%");
         }
 
         // 手机号查询
-        if(StringUtils.isNotEmpty(params.getPhone())){
+        if(StringUtils.isNotBlank(params.getPhone())){
             criteria.andPhoneEqualTo(params.getPhone());
         }
 
         // 邮箱模糊查询
-        if(StringUtils.isNotEmpty(params.getEmail())){
+        if(StringUtils.isNotBlank(params.getEmail())){
             criteria.andEmailEqualTo("%" + params.getEmail() + "%");
         }
 
@@ -126,10 +117,9 @@ public class DatabaseUsers {
      * 登录
      * @param email 用户email
      * @param phone 用户phone
-     * @param password 用户password
      * @return Users
      */
-    public Users findUserForLogin(String email, String phone, String password){
+    public Users findUserForLogin(String email, String phone){
         UsersExample example = new UsersExample();
         UsersExample.Criteria criteria = example.createCriteria();
 
@@ -139,7 +129,6 @@ public class DatabaseUsers {
         if(StringUtils.isNotBlank(phone)){
             criteria.andPhoneEqualTo(phone);
         }
-        criteria.andPasswordEqualTo(password);
         criteria.andDeleteEqualTo(UserDeleteEnum.NORMAL.getCode());
         criteria.andStatusEqualTo(UserStatusEnum.OK.getCode());
 

@@ -12,9 +12,8 @@ import javax.validation.constraints.Size;
 public class CreateRolesParams {
 
     @NotBlank
-    @Max(value = 20)
-    @Pattern(regexp = Validation.EN)
-    private String key;
+    @Pattern(regexp = Validation.UUID)
+    private String roleId;
 
     @NotBlank
     @Max(value = 20)

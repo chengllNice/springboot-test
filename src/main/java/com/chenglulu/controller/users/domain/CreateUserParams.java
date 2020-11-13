@@ -29,5 +29,6 @@ public class CreateUserParams {
     private String email;
 
     @NotBlank
-    private String role;
+    @Pattern(regexp = Validation.UUID)
+    private String roleId;
 }

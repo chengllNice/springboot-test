@@ -71,83 +71,83 @@
 
         <!-- table可以有多个,每个数据库中的表都可以写一个table，tableName表示要匹配的数据库表,也可以在tableName属性中通过使用%通配符来匹配所有数据库表,只有匹配的表才会自动生成文件 enableSelectByPrimaryKey相应的配置表示是否生成相应的接口 -->
 
-<!--        <table tableName="interface_list"-->
-<!--               schema="root"-->
-<!--               domainObjectName="InterfaceList"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="interface_list"
+               schema="root"
+               domainObjectName="InterfaceList"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
 
-<!--        <table tableName="login_record"-->
-<!--               schema="root"-->
-<!--               domainObjectName="LoginRecord"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="login_record"
+               schema="root"
+               domainObjectName="LoginRecord"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
 
-<!--        <table tableName="operation_record"-->
-<!--               schema="root"-->
-<!--               domainObjectName="OperationRecord"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="operation_record"
+               schema="root"
+               domainObjectName="OperationRecord"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
 
-<!--        <table tableName="permission_template"-->
-<!--               schema="root"-->
-<!--               domainObjectName="PermissionTemplate"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="permission_template"
+               schema="root"
+               domainObjectName="PermissionTemplate"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
 
-<!--        <table tableName="permission_user"-->
-<!--               schema="root"-->
-<!--               domainObjectName="PermissionUser"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="permission_user"
+               schema="root"
+               domainObjectName="PermissionUser"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
 
-<!--        <table tableName="roles"-->
-<!--               schema="root"-->
-<!--               domainObjectName="Roles"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="roles"
+               schema="root"
+               domainObjectName="Roles"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
 
         <table tableName="teams"
                schema="root"
@@ -162,17 +162,30 @@
                enableDeleteByPrimaryKey="true">
         </table>
 
-<!--        <table tableName="users"-->
-<!--               schema="root"-->
-<!--               domainObjectName="Users"-->
-<!--               enableCountByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               selectByExampleQueryId="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true">-->
-<!--        </table>-->
+        <table tableName="user_token"
+               schema="root"
+               domainObjectName="UserToken"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
+
+        <table tableName="users"
+               schema="root"
+               domainObjectName="Users"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true">
+        </table>
     </context>
 </generatorConfiguration>

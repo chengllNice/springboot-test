@@ -1,12 +1,9 @@
-package com.chenglulu.service.operation_record;
+package com.chenglulu.service.impl;
 
-import com.chenglulu.constant.ErrorCode;
 import com.chenglulu.controller.operation_record.domain.CreateOperationRecordParams;
-import com.chenglulu.controller.roles.domain.CreateRolesParams;
-import com.chenglulu.exception.RequestException;
 import com.chenglulu.mybatis.entity.OperationRecord;
-import com.chenglulu.mybatis.entity.Roles;
-import com.chenglulu.service.operation_record.database.DatabaseOperationRecord;
+import com.chenglulu.service.database.OperationRecordDatabase;
+import com.chenglulu.service.OperationRecordService;
 import com.chenglulu.utils.ApiAuth;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,9 +14,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class OperationRecordService {
+public class OperationRecordServiceImpl implements OperationRecordService {
     @Autowired
-    private DatabaseOperationRecord databaseOperationRecord;
+    private OperationRecordDatabase operationRecordDatabase;
 
     private static final Logger logger = LoggerFactory.getLogger(OperationRecordService.class);
 
@@ -29,6 +26,7 @@ public class OperationRecordService {
      * @param params 请求参数
      * @return Users
      */
+    @Override
     public OperationRecord createOperationRecord(ApiAuth auth, CreateOperationRecordParams params){
 
         OperationRecord operationRecord = new OperationRecord();
@@ -42,6 +40,6 @@ public class OperationRecordService {
             operationRecord.setUserId(params.getUserId());
         }
 
-        return databaseOperationRecord.insertOperationRecord(operationRecord);
+        return operationRecordDatabase.insertOperationRecord(operationRecord);
     }
 }

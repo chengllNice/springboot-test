@@ -1,4 +1,4 @@
-package com.chenglulu.service.roles.database;
+package com.chenglulu.service.database;
 
 import com.chenglulu.mybatis.dao.RolesMapper;
 import com.chenglulu.mybatis.entity.Roles;
@@ -14,23 +14,18 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class DatabaseRoles {
+public class RolesDatabase {
     @Autowired(required=false)
     private RolesMapper rolesMapper;
 
     /**
      * 新建角色
-     * @param params RegisterUsersParams
+     * @param roles Roles
      * @return boolean
      */
-    public Roles insertRoles(Roles params){
-        Roles roles = new Roles();
+    public Roles insertRoles(Roles roles){
         Date date = new Date();
-
         roles.setId(CommonUtils.getUuid());
-        roles.setKey(params.getKey());
-        roles.setName(params.getName());
-        roles.setTeamId(params.getTeamId());
         roles.setCreateTime(date);
         roles.setUpdateTime(date);
         int insertResult = rolesMapper.insertSelective(roles);
@@ -44,25 +39,23 @@ public class DatabaseRoles {
 
     /**
      * 修改角色
-     * @param params RegisterUsersParams
+     * @param name String
      * @return boolean
      */
-    public Roles updateRoles(Roles params){
-        Roles roles = new Roles();
-        Date date = new Date();
+    public boolean updateRoles(String roleId, String name){
+        RolesExample example = new RolesExample();
+        RolesExample.Criteria criteria = example.createCriteria();
 
-        roles.setId(CommonUtils.getUuid());
-        roles.setKey(params.getKey());
-        roles.setName(params.getName());
-        roles.setTeamId(params.getTeamId());
-        roles.setCreateTime(date);
+        criteria.andIdEqualTo(roleId);
+
+        Date date = new Date();
+        Roles roles = new Roles();
+        roles.setName(name);
         roles.setUpdateTime(date);
-        int insertResult = rolesMapper.insertSelective(roles);
-        log.info("insertRoles insertResult = {}", insertResult);
-        if(insertResult == 1){
-            return roles;
-        }
-        return null;
+
+        int result = rolesMapper.updateByExample(roles, example);
+        log.info("updateRoles result = {}", result);
+        return result == 1;
     }
 
 
@@ -90,21 +83,20 @@ public class DatabaseRoles {
 
 
     /**
-     * 查询角色通过KEY
+     * 查询角色信息
      * @return Roles
      */
-    public Roles findRolesByKey(String teamId,  String key){
+    public Roles findRolesById(String roleId){
         RolesExample example = new RolesExample();
         RolesExample.Criteria criteria = example.createCriteria();
 
-        criteria.andTeamIdEqualTo(teamId);
-        criteria.andKeyEqualTo(key);
+        criteria.andIdEqualTo(roleId);
 
-        List<Roles> rolesList = rolesMapper.selectByExample(example);
-        log.info("findRolesByKey rolesList = {}", rolesList);
+        List<Roles> result = rolesMapper.selectByExample(example);
+        log.info("findRolesById result = {}", result);
 
-        if(rolesList.size() > 0){
-            return rolesList.get(0);
+        if(result.size() == 1){
+            return result.get(0);
         }
         return null;
     }

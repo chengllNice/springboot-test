@@ -33,7 +33,49 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * 数据绑定异常处理
+     * 服务内部异常处理
+     * @param request 请求
+     * @param ex 异常对象
+     */
+    @ExceptionHandler(value = {ServiceException.class})
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public HttpEntity<BaseResponse> handlerServiceException(HttpServletRequest request, ServiceException ex){
+        String requestId = getRequestIdHeader(request);
+        logger.error("GlobalExceptionHandler ServiceException. requestId = {}", requestId, ex);
+
+        String code = ex.getCode();
+        Object[] msgArg = ex.getMsgArgs();
+
+        String message = getLocaleMessage(code, msgArg);
+
+        BaseResponse res = ResponseUtil.error(requestId, code, message);
+        return new HttpEntity<BaseResponse>(res);
+    }
+
+    /**
+     * 无权限访问
+     * @param request 请求
+     * @param ex 异常对象
+     */
+    @ExceptionHandler(value = {ForbiddenException.class})
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public HttpEntity<BaseResponse> handlerForbiddenException(HttpServletRequest request, ForbiddenException ex){
+        String requestId = getRequestIdHeader(request);
+        logger.error("GlobalExceptionHandler ForbiddenException. requestId = {}", requestId, ex);
+
+        String code = ex.getCode();
+        Object[] msgArg = ex.getMsgArgs();
+
+        String message = getLocaleMessage(code, msgArg);
+
+        BaseResponse res = ResponseUtil.error(requestId, code, message);
+        return new HttpEntity<BaseResponse>(res);
+    }
+
+    /**
+     * 权限校验异常
      * @param request 请求
      * @param ex 异常对象
      */
@@ -94,7 +136,7 @@ public class GlobalExceptionHandler {
             String defaultMessage = fe.getDefaultMessage();
             String field = fe.getField();
 
-            if(defaultMessage != null && defaultMessage.contains("i18n")){
+            if(defaultMessage != null && defaultMessage.contains("validtor")){
                 Object[] msgArg = fe.getArguments();
                 String message = getLocaleMessage(defaultMessage, msgArg);
                 msgStr.append(message).append("; ");
@@ -124,19 +166,23 @@ public class GlobalExceptionHandler {
 
         BindingResult br = ex.getBindingResult();
         StringBuilder msgStr = new StringBuilder();
-        List<FieldError> feList = br.getFieldErrors();
-        for (FieldError fe : feList) {
-            String defaultMessage = fe.getDefaultMessage();
-            String field = fe.getField();
 
-            if(defaultMessage != null && defaultMessage.contains("i18n")){
-                Object[] msgArg = fe.getArguments();
-                String message = getLocaleMessage(defaultMessage, msgArg);
-                msgStr.append(message).append("; ");
-            }else {
-                msgStr.append(field).append(" ").append(defaultMessage).append("; ");
+        if(br.hasErrors()){
+            List<FieldError> feList = br.getFieldErrors();
+            for (FieldError fe : feList) {
+                String defaultMessage = fe.getDefaultMessage();
+                String field = fe.getField();
+
+                if(defaultMessage != null && defaultMessage.contains("validtor")){
+                    Object[] msgArg = fe.getArguments();
+                    String message = getLocaleMessage(defaultMessage, msgArg);
+                    msgStr.append(message).append("; ");
+                }else {
+                    msgStr.append(field).append(" ").append(defaultMessage).append("; ");
+                }
             }
         }
+
         Object[] msgArg = new Object[]{msgStr};
         String message = getLocaleMessage(code, msgArg);
 
